@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo List</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>My Todo List</h1>
+
+    </header>
+
+    <div id="alert">
+        <span>Error</span>
+        <button>X</button>
+    </div>
+
+    <form data-valid="false" action="#">
+        <input data-validate="true" id="input" type="text" placeholder="Enter a Task">
+        <span id="error-msg">hi</span>
+        <button id="todo-button" type="submit">
+            <i class="fas fa-plus-square"></i>
+        </button>
+    </form>
+
+
+    <ul id="list">
+
+    </ul>
+
+
+
+    <script defer src="main.js"></script>
+</body>
+
+</html>
