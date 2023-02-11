@@ -8,48 +8,76 @@ const errorMsg = document.getElementById("error-msg");
 const todoList = [];
 
 const createListItem = () => {
-    todoList.forEach((item) => {
-        let listItem = document.createElement('li');
-        let listItemTitle = document.createElement('h2');
-        listItemTitle.innerText = item.title;
-        listItem.appendChild(listItemTitle);
-        list.appendChild(listItem);
-    })
+    const nowTodo = localStorage.getItem('todos');
+    const parsedNowTodo = JSON.parse(nowTodo);
+    if (parsedNowTodo && parsedNowTodo.length > 0) {
+        parsedNowTodo.forEach((item) => {
+            const listItem = document.createElement('button');
+            listItem.setAttribute("class", "button-list");
+            const listItemDetails = document.createElement('div')
+            const listItemTitle = document.createElement('h1');
+            listItemTitle.innerText = item.title;
+            listItemDetails.appendChild(listItemTitle);
+
+            const listItemAction = document.createElement('div');
+            listItemAction.setAttribute("class", "list-item-action");
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.setAttribute("class", "deletebtn");
+            deleteBtn.innerHTML = " <i class='fas fa-trash'</i>";
+
+            const editBtn = document.createElement('button');
+            editBtn.setAttribute("class", "editbtn");
+            editBtn.innerHTML = "<i class='fas fa-edit'></i>";
+
+            const checkBtn = document.createElement('button');
+            checkBtn.setAttribute("class", "checkbtn");
+            checkBtn.innerHTML = "<i class='fas fa-check'></i>";
+
+            listItemAction.append(deleteBtn, editBtn, checkBtn);
+
+            listItem.append(listItemDetails, listItemAction);
+            list.appendChild(listItem);
+
+        })
+    }
 };
+
 
 createListItem();
 
+
 btnTodo.addEventListener('click', (e) => {
     e.preventDefault();
-    if(input.value === "") {
-        errorMsg.style.display="block";
-        errorMsg.innerText="This feild is required";
-        input.style.borderStyle="solid";
-        input.style.borderColor="red";
-        input.style.borderWidth="1px";
-    }
-    // if (input.value === "") {
-    //     alertEl.style.top = "8.5rem"
-    //     alertEl.children[0].innerText = "This feild is required";
-    //     setTimeout(() => {
-    //         alertEl.style.top = "-100%";
-    //     }, 3000);
-    // } 
-    else {
-        errorMsg.style.display="none";
-        input.style.borderStyle="none";
+    if (!input.value) {
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "This feild is required";
+        input.style.borderStyle = "solid";
+        input.style.borderColor = "red";
+        input.style.borderWidth = "1px";
+    } else {
+        errorMsg.style.display = "none";
+        input.style.borderStyle = "none";
         const newTodo = {
             title: input.value
         };
-        todoList.push(newTodo);
+
+        const nowTodo = localStorage.getItem('todos');
+        const parsedNowTodo = JSON.parse(nowTodo);
+
+        if (parsedNowTodo && parsedNowTodo.length > 0) {
+            const mergedData = [...parsedNowTodo, newTodo];
+            const stringifyTodo = JSON.stringify(mergedData)
+            localStorage.setItem('todos', stringifyTodo);
+        } else {
+            todoList.push(newTodo);
+            const stringifyTodo = JSON.stringify(todoList)
+            localStorage.setItem('todos', stringifyTodo);
+        };
+
         list.innerHTML = "";
         createListItem();
         input.value = "";
     }
 });
 
-const errorFunc = () => {
-    alertEl.style.top = "-100%"
-}
-
-alertEl.children[1].addEventListener('click', errorFunc);
